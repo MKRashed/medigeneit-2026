@@ -6,24 +6,100 @@
 <title>Monthly Project Summary — 2026 YTD</title>
 <style>
 *{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#111;margin:24px auto;max-width:920px;padding:0 20px;line-height:1.35}.overview{border:1px solid #aaa;padding:16px 20px;margin-bottom:30px}.overview h1{font-size:22px;margin:0 0 12px}.overview p{font-size:13px;margin:7px 0}.toolbar{display:flex;justify-content:flex-end;margin-bottom:12px}.toolbar button{padding:9px 15px;border:1px solid #aaa;border-radius:5px;background:white;cursor:pointer}.month{margin:0 0 44px}.month h2{text-align:center;text-decoration:underline;font-size:21px;margin:28px 0 22px}.meta,.report{width:100%;border-collapse:collapse;table-layout:fixed}.meta{margin:0 0 32px}.meta td{border:1px solid #111;padding:6px 8px}.meta td:first-child{width:23%;text-align:right}.table-scroll{overflow-x:auto}.report th,.report td{border:1px solid #111;padding:7px;vertical-align:middle;overflow-wrap:anywhere}.report th{background:#cdcdcd;text-align:center;font-size:13px;line-height:1.2}.report td{font-size:13px}.report .sl,.report .status,.report .score{text-align:center}.report .project{font-weight:400}.month-count{text-align:center;font-size:12px;color:#555;margin:-20px 0 18px}.sources{font-size:12px;margin-top:14px;color:#555}.sources summary{cursor:pointer}.sources ul{padding-left:20px}.sources li{margin:4px 0}.sources a{color:#24577b}.note{font-size:12px;color:#555}.unmerged{font-style:italic}thead{display:table-header-group}tr{break-inside:avoid;page-break-inside:avoid}@page{size:A4 portrait;margin:17mm}@media(max-width:620px){body{padding:0 10px}.report{min-width:640px}.overview h1{font-size:20px}}@media print{body{max-width:none;margin:0;padding:0}.overview,.toolbar,.sources,.month-count{display:none}.month{margin:0;break-after:page;page-break-after:always}.month:last-child{break-after:auto;page-break-after:auto}.month h2{margin:0 0 20px;font-size:20px;break-after:avoid}.meta{margin-bottom:30px}.table-scroll{overflow:visible}.report{min-width:0}.report th,.report td{padding:6px;font-size:11px}.report th{print-color-adjust:exact;-webkit-print-color-adjust:exact}.meta td{font-size:12px}}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{background:#f4f4f2}
+.toolbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:12px;background:rgba(244,244,242,.94);backdrop-filter:blur(6px);padding:10px 0;margin-bottom:16px;border-bottom:1px solid #e1e0dc}
+.month-nav{display:flex;flex-wrap:wrap;gap:4px}
+.month-nav a{font-size:12px;color:#52514e;text-decoration:none;padding:5px 9px;border-radius:999px;border:1px solid transparent}
+.month-nav a:hover{background:#fff;border-color:#d6d5d0}
+.month-nav a.active{background:#0b0b0b;color:#fff}
+.toolbar button{flex:none;font-size:13px}
+.overview{border:0;padding:0;margin-bottom:40px}
+.ov-head{margin-bottom:16px}
+.overview h1{font-size:24px;margin:0 0 4px}
+.overview .ov-sub{font-size:14px;color:#52514e;margin:0}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.kpi{background:#fcfcfb;border:1px solid #e1e0dc;border-radius:8px;padding:12px 14px}
+.kpi .k-label{font-size:12px;color:#52514e;margin:0}
+.kpi .k-value{font-size:28px;font-weight:700;margin:2px 0 0;font-variant-numeric:tabular-nums}
+.kpi .k-sub{font-size:12px;color:#7a7974;margin:2px 0 0}
+.panel{background:#fcfcfb;border:1px solid #e1e0dc;border-radius:8px;padding:14px 16px;margin-bottom:12px;min-width:0}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.panel h3{font-size:14px;margin:0}
+.panel-hint{font-size:11px;color:#7a7974}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid2 .panel{margin-bottom:12px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:#52514e;margin-bottom:6px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.swatch{display:inline-block;width:10px;height:10px;border-radius:3px;flex:none}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .axis{font-size:11px;fill:#7a7974}
+.chart .grid{stroke:#e8e7e3;stroke-width:1}
+.chart .base{stroke:#bdbcb7;stroke-width:1}
+.chart .total{font-size:11px;fill:#52514e;font-weight:700}
+.chart .hit{fill:transparent;cursor:pointer}
+.chart .hit:hover{fill:rgba(11,11,11,.04)}
+.mini{width:100%;border-collapse:collapse;font-size:12px}
+.mini th{font-weight:600;color:#52514e;text-align:left;border-bottom:1px solid #d6d5d0;padding:6px}
+.mini td{border-bottom:1px solid #eeede9;padding:6px;vertical-align:middle}
+.mini .num{text-align:right;font-variant-numeric:tabular-nums}
+.mini tbody tr:last-child td{border-bottom:0}
+.mini tfoot td{border-top:1px solid #d6d5d0;border-bottom:0;font-weight:700}
+.mini .pname{display:flex;align-items:center;gap:7px}
+#month-table tbody tr{cursor:pointer}
+#month-table tbody tr:hover td{background:#f1f0ec}
+.muted{color:#9a9994}
+.tooltip{position:fixed;z-index:20;pointer-events:none;background:#fff;border:1px solid #d6d5d0;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.12);padding:8px 10px;font-size:12px;min-width:170px}
+.tooltip .t-title{font-weight:700;margin-bottom:4px}
+.tooltip .t-row{display:flex;align-items:center;gap:6px;justify-content:space-between}
+.tooltip .t-row span:first-child{display:inline-flex;align-items:center;gap:6px;color:#52514e}
+.tooltip .t-total{border-top:1px solid #eeede9;margin-top:4px;padding-top:4px;font-weight:700}
+.month{background:#fff;border:1px solid #e1e0dc;border-radius:8px;padding:6px 24px 20px}
+.overview .note{margin:4px 2px 0;line-height:1.5}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.month{padding:6px 12px 16px}}
+@media print{body{background:#fff}.toolbar,.overview{display:none!important}.tooltip{display:none!important}.month{border:0;border-radius:0;padding:0}}
+.report .commit-note{display:block;font-size:11px;color:#7a7974;margin-top:3px}
+.source-commits{margin-top:6px}
 </style>
 </head>
 <body>
-<div class="toolbar"><button type="button" onclick="window.print()">Print / Save PDF</button></div>
-<header class="overview">
+<nav class="toolbar" aria-label="Report navigation"><div class="month-nav" id="month-nav"><a href="#overview">Overview</a></div><button type="button" onclick="window.print()">Print / Save PDF</button></nav>
+<header class="overview" id="overview">
+<div class="ov-head">
+<div>
 <h1>Monthly Project Summary — 2026 YTD</h1>
-<p><strong>Md. Rashedul Islam</strong> · Software Engineer · Jan 1–Nov 16, 2026</p>
-
-<p><strong>224 Medigene IT organization pull requests</strong> (222 merged; 2 closed without merging) and <strong>149 additional commits</strong> across 8 repositories in 5 projects.</p>
-<p>API and frontend repositories are combined by project. Repeated PRs for the same feature are summarized together. Source PRs remain available below each month.</p>
-<p class="note">Status (%) is blank because PR merge state does not establish feature completion. Assigned Score and Earned Score are left blank for filling in after printing. Summaries reflect the supplied PR titles; some original titles are truncated. November covers Nov 1–16 only.</p>
+<p class="ov-sub"><strong>Md. Rashedul Islam</strong> · Software Engineer · Jan 1–Nov 16, 2026</p>
+</div>
+</div>
+<div class="kpis" id="kpis"></div>
+<div class="panel">
+<div class="panel-head"><h3>Pull requests per month, by project</h3><span class="panel-hint">Hover a month for the breakdown · click a bar to open that month</span></div>
+<div class="legend" id="pr-legend"></div>
+<div class="chart" id="pr-chart"></div>
+</div>
+<div class="grid2">
+<div class="panel">
+<div class="panel-head"><h3>Additional commits per month</h3><span class="panel-hint">Outside PRs · tracked from July</span></div>
+<div class="chart" id="commit-chart"></div>
+</div>
+<div class="panel">
+<div class="panel-head"><h3>Projects</h3><span class="panel-hint">PRs + commits</span></div>
+<table class="mini" id="project-table"><thead><tr><th>Project</th><th class="num">PRs</th><th class="num">Commits</th><th class="num">Months</th></tr></thead><tbody></tbody></table>
+</div>
+</div>
+<div class="panel">
+<div class="panel-head"><h3>Month by month</h3><span class="panel-hint">Click a month to jump to its report</span></div>
+<div class="table-scroll"><table class="mini" id="month-table"><thead><tr><th>Month</th><th class="num">Work items</th><th class="num">Projects</th><th class="num">PRs</th><th class="num">Merged</th><th class="num">Commits</th><th>Projects worked on</th></tr></thead><tbody></tbody></table></div>
+</div>
+<p class="note">API and frontend repositories are combined by project; repeated PRs for the same feature are summarized together, and source PRs remain available under each month. Assigned Score and Earned Score are left blank for filling in after printing. Summaries reflect the supplied PR titles; some original titles are truncated. November covers Nov 1–16 only.</p>
 </header>
+<div class="tooltip" id="tooltip" role="tooltip" hidden></div>
 <section class="month" data-month="JAN"><h2>Monthly Report of JAN 2026</h2>
 <table class="meta"><tbody><tr><td>Name</td><td>Md. Rashedul Islam</td></tr>
 <tr><td>Designation</td><td>Software Engineer</td></tr></tbody></table>
 <p class="month-count">2 summarized work items · 2 projects · 6 source PRs</p>
-<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="1">Digi Attendance (HRM)</td><td>Discipline module updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">2</td><td class="project" rowspan="1">DWT</td><td>Next.js upgrade and Vercel build / deployment checks.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
+<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="1">Digi Attendance (HRM)</td><td>Discipline module updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">2</td><td class="project" rowspan="1">DWT</td><td>Next.js upgrade and Vercel build / deployment checks.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
 <details class="sources"><summary>Source PRs (6)</summary>
 <p><strong>Digi Attendance (HRM)</strong></p><ul>
 <li><a href="https://github.com/medigeneit/digi-attendance/pull/44">medigeneit/digi-attendance — PR #44: Discipline</a> <span class="source-state">(Merged)</span></li>
@@ -40,13 +116,13 @@
 <table class="meta"><tbody><tr><td>Name</td><td>Md. Rashedul Islam</td></tr>
 <tr><td>Designation</td><td>Software Engineer</td></tr></tbody></table>
 <p class="month-count">7 summarized work items · 3 projects · 15 source PRs</p>
-<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="2">DWT</td><td>Volunteer module updates and designation save fix.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">2</td><td>General maintenance updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">3</td><td class="project" rowspan="2">Digi Attendance (HRM)</td><td>Discipline reports, attachment details and related controls.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">4</td><td>Push notification support.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">5</td><td class="project" rowspan="3">IPMS</td><td>Payment gateway integration across API and frontend.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">6</td><td>SMS package purchase, activation, package types and administration.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">7</td><td>SMS logs, navigation and API endpoint updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
+<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="2">DWT</td><td>Volunteer module updates and designation save fix.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">2</td><td>General maintenance updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">3</td><td class="project" rowspan="2">Digi Attendance (HRM)</td><td>Discipline reports, attachment details and related controls.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">4</td><td>Push notification support.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">5</td><td class="project" rowspan="3">IPMS</td><td>Payment gateway integration across API and frontend.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">6</td><td>SMS package purchase, activation, package types and administration.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">7</td><td>SMS logs, navigation and API endpoint updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
 <details class="sources"><summary>Source PRs (15)</summary>
 <p><strong>DWT</strong></p><ul>
 <li><a href="https://github.com/medigeneit/dwt/pull/12">medigeneit/dwt — PR #12: update</a> <span class="source-state">(Merged)</span></li>
@@ -74,15 +150,15 @@
 <table class="meta"><tbody><tr><td>Name</td><td>Md. Rashedul Islam</td></tr>
 <tr><td>Designation</td><td>Software Engineer</td></tr></tbody></table>
 <p class="month-count">9 summarized work items · 4 projects · 28 source PRs</p>
-<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="3">IPMS</td><td>Doctor degree normalization and saved-event handling.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">2</td><td>Patient creation and SMS package setup updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">3</td><td>Home page, content and UI improvements; bug fixes.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">4</td><td class="project" rowspan="3">Digi Attendance (HRM)</td><td>KPI HR automatic marking and push notification updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">5</td><td>Payroll module, salary structures, revisions and bonus handling.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">6</td><td>Salary calculation forms and recent-notice filtering / display improvements.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">7</td><td class="project" rowspan="1">DWT</td><td>Repository synchronization and maintenance.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">8</td><td class="project" rowspan="2">Genesis Online University</td><td>Combined schedule content, query updates and schedule UI improvements.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">9</td><td>Registration fixes and related modifications.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
+<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="3">IPMS</td><td>Doctor degree normalization and saved-event handling.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">2</td><td>Patient creation and SMS package setup updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">3</td><td>Home page, content and UI improvements; bug fixes.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">4</td><td class="project" rowspan="3">Digi Attendance (HRM)</td><td>KPI HR automatic marking and push notification updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">5</td><td>Payroll module, salary structures, revisions and bonus handling.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">6</td><td>Salary calculation forms and recent-notice filtering / display improvements.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">7</td><td class="project" rowspan="1">DWT</td><td>Repository synchronization and maintenance.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">8</td><td class="project" rowspan="2">Genesis Online University</td><td>Combined schedule content, query updates and schedule UI improvements.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">9</td><td>Registration fixes and related modifications.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
 <details class="sources"><summary>Source PRs (28)</summary>
 <p><strong>IPMS</strong></p><ul>
 <li><a href="https://github.com/medigeneit/ipms/pull/22">medigeneit/ipms — PR #22: feat: Enhance degree normalization and emit saved event in modal</a> <span class="source-state">(Merged)</span></li>
@@ -125,11 +201,11 @@
 <table class="meta"><tbody><tr><td>Name</td><td>Md. Rashedul Islam</td></tr>
 <tr><td>Designation</td><td>Software Engineer</td></tr></tbody></table>
 <p class="month-count">5 summarized work items · 4 projects · 11 source PRs</p>
-<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="1">Genesis Online University</td><td>Combined schedule-content updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">2</td><td class="project" rowspan="2">Digi Attendance (HRM)</td><td>Application feedback notifications.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">3</td><td>Onboarding updates, probationary reviewer reminders and bug fixes.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">4</td><td class="project" rowspan="1">IPMS</td><td>Tag updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">5</td><td class="project" rowspan="1">DWT</td><td>Repository synchronization.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
+<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="1">Genesis Online University</td><td>Combined schedule-content updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">2</td><td class="project" rowspan="2">Digi Attendance (HRM)</td><td>Application feedback notifications.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">3</td><td>Onboarding updates, probationary reviewer reminders and bug fixes.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">4</td><td class="project" rowspan="1">IPMS</td><td>Tag updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">5</td><td class="project" rowspan="1">DWT</td><td>Repository synchronization.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
 <details class="sources"><summary>Source PRs (11)</summary>
 <p><strong>Genesis Online University</strong></p><ul>
 <li><a href="https://github.com/medigeneit/genesisonlineuniversity/pull/123">medigeneit/genesisonlineuniversity — PR #123: Schedule content conbine</a> <span class="source-state">(Merged)</span></li>
@@ -155,13 +231,13 @@
 <table class="meta"><tbody><tr><td>Name</td><td>Md. Rashedul Islam</td></tr>
 <tr><td>Designation</td><td>Software Engineer</td></tr></tbody></table>
 <p class="month-count">7 summarized work items · 3 projects · 24 source PRs</p>
-<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="3">Digi Attendance (HRM)</td><td>Admin dashboard and UI improvements.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">2</td><td>Payroll generation, hourly-rate calculations and salary slip updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">3</td><td>Individual review support.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">4</td><td class="project" rowspan="2">DWT</td><td>Roles and permissions across API and frontend.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">5</td><td>ID updates, repository synchronization and build fixes.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">6</td><td class="project" rowspan="2">IPMS</td><td>Fertility-related features across API and frontend.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">7</td><td>UI improvements and build fixes.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
+<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="3">Digi Attendance (HRM)</td><td>Admin dashboard and UI improvements.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">2</td><td>Payroll generation, hourly-rate calculations and salary slip updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">3</td><td>Individual review support.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">4</td><td class="project" rowspan="2">DWT</td><td>Roles and permissions across API and frontend.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">5</td><td>ID updates, repository synchronization and build fixes.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">6</td><td class="project" rowspan="2">IPMS</td><td>Fertility-related features across API and frontend.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">7</td><td>UI improvements and build fixes.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
 <details class="sources"><summary>Source PRs (24)</summary>
 <p><strong>Digi Attendance (HRM)</strong></p><ul>
 <li><a href="https://github.com/medigeneit/digi-attendance-api/pull/52">medigeneit/digi-attendance-api — PR #52: Admindashboard</a> <span class="source-state">(Merged)</span></li>
@@ -198,13 +274,13 @@
 <table class="meta"><tbody><tr><td>Name</td><td>Md. Rashedul Islam</td></tr>
 <tr><td>Designation</td><td>Software Engineer</td></tr></tbody></table>
 <p class="month-count">7 summarized work items · 2 projects · 27 source PRs</p>
-<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="3">DWT</td><td>Medical college management module and admin routes.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">2</td><td>Health Institute module across API and frontend.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">3</td><td>Home page UI improvements.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">4</td><td class="project" rowspan="4">Digi Attendance (HRM)</td><td>Off-day exchange logic, user access and permissions.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">5</td><td>Advance deductions and dynamic approval / forwarding rules.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">6</td><td>Employee management and bulk SMS support.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">7</td><td>Overtime visibility, notifications, UI and migration fixes; general maintenance.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
+<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="3">DWT</td><td>Medical college management module and admin routes.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">2</td><td>Health Institute module across API and frontend.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">3</td><td>Home page UI improvements.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">4</td><td class="project" rowspan="4">Digi Attendance (HRM)</td><td>Off-day exchange logic, user access and permissions.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">5</td><td>Advance deductions and dynamic approval / forwarding rules.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">6</td><td>Employee management and bulk SMS support.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">7</td><td>Overtime visibility, notifications, UI and migration fixes; general maintenance.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
 <details class="sources"><summary>Source PRs (27)</summary>
 <p><strong>DWT</strong></p><ul>
 <li><a href="https://github.com/medigeneit/dwt/pull/26">medigeneit/dwt — PR #26: Medical college module</a> <span class="source-state">(Merged)</span></li>
@@ -241,11 +317,15 @@
 <section class="month" data-month="JUL"><h2>Monthly Report of JUL 2026</h2>
 <table class="meta"><tbody><tr><td>Name</td><td>Md. Rashedul Islam</td></tr>
 <tr><td>Designation</td><td>Software Engineer</td></tr></tbody></table>
-<p class="month-count">4 summarized work items · 3 projects · 8 source PRs · 20 commits</p>
-<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="1">Digi Attendance (HRM)</td><td>Onboarding updates across API and frontend.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">2</td><td class="project" rowspan="2">IPMS</td><td>Schedule updates and dynamic chamber availability.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">3</td><td>Drug dose scheduling, clear options and related refinements.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">4</td><td class="project" rowspan="1">Edumax HRM</td><td>20 commits (API 8 + frontend 12): leave types, scheduling/KPI reports and frontend table/UI updates. <a href="https://github.com/medigeneit/edumax-hrm-api/commits/main?author=MKRashed">API main</a> | <a href="https://github.com/medigeneit/edumax-hrm-api/commits/upgrade/laravel-12?author=MKRashed">API upgrade branch</a> | <a href="https://github.com/medigeneit/edumax-hrm-frontend/commits/main?author=MKRashed">frontend main</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
+<p class="month-count">8 summarized work items · 3 projects · 8 source PRs · 20 commits</p>
+<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="1">Digi Attendance (HRM)</td><td>Onboarding updates across API and frontend.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">2</td><td class="project" rowspan="2">IPMS</td><td>Schedule updates and dynamic chamber availability.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">3</td><td>Drug dose scheduling, clear options and related refinements.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">4</td><td class="project" rowspan="5" data-commits="20">Edumax HRM</td><td>Project setup for API and frontend, login / layout redesign and unit tests for probation review and leave-day calculation.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">5</td><td>KPI report views with a new data-table component and filters; admin and private pages moved to the shared AppDataTable.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">6</td><td>“Company” → “Branch” terminology across admin and private pages, plus user and general UI/UX updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">7</td><td>Shift schedule: optional department validation and query optimization.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">8</td><td>Leave types: new code field, leave-type normalization and optional leave type on leave applications.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
 <details class="sources"><summary>Source PRs (8)</summary>
 <p><strong>Digi Attendance (HRM)</strong></p><ul>
 <li><a href="https://github.com/medigeneit/digi-attendance-api/pull/69">medigeneit/digi-attendance-api — PR #69: Onboarding</a> <span class="source-state">(Merged)</span></li>
@@ -259,22 +339,49 @@
 <li><a href="https://github.com/medigeneit/ipms/pull/46">medigeneit/ipms — PR #46: feat: Update dose schedule handling in FavoriteDrugNote to ensure acc…</a> <span class="source-state">(Merged)</span></li>
 <li><a href="https://github.com/medigeneit/ipms/pull/47">medigeneit/ipms — PR #47: feat: Enhance drug scheduling functionality with clear options and mo…</a> <span class="source-state">(Merged)</span></li>
 </ul>
+</details><details class="sources source-commits"><summary>Source commits (20)</summary>
+<p><strong>Edumax HRM</strong></p><ul>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/52d645c13724f9b7a0d3037d92de04219c393c75">edumax-hrm-api — 52d645c: first commit</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/9bebc87b63703f4f53342c5213a0a848c81b50a6">edumax-hrm-api — 9bebc87: Add unit tests for employee probation review and leave day calculation services</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/65310e6b65b4dbd77556a8ee1310a94f75955a25">edumax-hrm-frontend — 65310e6: first commit</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/eea282ba0683c2075c819e85cf328b3c739a2606">edumax-hrm-frontend — eea282b: 2nd commit</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/1697ccd6a5efd7d33b0c78e951f500a4d1d448b4">edumax-hrm-frontend — 1697ccd: Delete node_modules directory</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/87016dd83547f7ff7795e70ab8c1373009569245">edumax-hrm-frontend — 87016dd: Refactor layout components and improve login view design</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/42e7726e4937a14ed38e7d8ccf91eefca3c4f2c3">edumax-hrm-api — 42e7726: feat: enhance KPI report views with new data table component and filters</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/1ab910991ba14e606538b6ab07dd1f090fe4d81a">edumax-hrm-frontend — 1ab9109: feat: enhance KPI report views with new data table component and filters</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/add9d6fc1d95211d46bc10bccbacaa978f86e62e">edumax-hrm-frontend — add9d6f: Refactor admin pages to use AppDataTable component for improved table rendering</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/9a8841dd3f0e70eaefc0e9f16deb048b3511a727">edumax-hrm-frontend — 9a8841d: Refactor admin and private pages to utilize AppDataTable for improved data presentation</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/f6581ab8ff377b51dae6628ad80ad98e2f112ab0">edumax-hrm-api — f6581ab: refactor: replace "Company" with "Branch" across multiple admin and private pages</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/6372d518a3b272b1e60cf242af5476b9837e5c76">edumax-hrm-frontend — 6372d51: refactor: replace "Company" with "Branch" across multiple admin and private pages</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/8fbb1fea0f307f6695d74e1d21f633dedc7c0111">edumax-hrm-api — 8fbb1fe: ui update</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/287cd91ee409141ac1213b5ad26a276f910830bd">edumax-hrm-frontend — 287cd91: update ui/ux</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/73205b993a2264a83f108397784ab62de6ebdef3">edumax-hrm-frontend — 73205b9: ui update</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/738e69657c563efc52f715cd0ebf0cf15b18bc9a">edumax-hrm-frontend — 738e696: update user ui</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/fbf1da4a580575259cf0a9e6734148503be9062b">edumax-hrm-api — fbf1da4: refactor: update department_id validation to be nullable and optimize queries in ShiftScheduleController</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/241cefc21b4e541ae67d244c35821b175e25b23b">edumax-hrm-api — 241cefc: feat: add code field to leave_types and update related logic for leave type normalization</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/cb950694ae406b4fddb9aeb06723530a60d00c28">edumax-hrm-api — cb95069: feat: add migration to make leave_type_id nullable in leave_applications table</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/d7e471d146a7f84354dfe6afaaaf27bffc20bf42">edumax-hrm-frontend — d7e471d: Add leave type code field and update related components for better identification</a></li>
+</ul>
 </details></section>
 <section class="month" data-month="AUG"><h2>Monthly Report of AUG 2026</h2>
 <table class="meta"><tbody><tr><td>Name</td><td>Md. Rashedul Islam</td></tr>
 <tr><td>Designation</td><td>Software Engineer</td></tr></tbody></table>
-<p class="month-count">11 summarized work items · 5 projects · 36 source PRs · 27 commits</p>
-<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="6">DWT</td><td>Automatic / recurring donation processing and donor status handling.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">2</td><td>Donor reminders, notifications and donation payment short links.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">3</td><td>bKash checkout and SSLCommerz amount-validation updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">4</td><td>Duplicate donor-record prevention and donor lookup improvements.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">5</td><td>Donation forms, media selection, trend charts and UI improvements.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">6</td><td>Error recovery, automatic retry and chunk-loading fixes.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">7</td><td class="project" rowspan="2">Digi Attendance (HRM)</td><td>Meal management across API and frontend.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">8</td><td>Bangla localization, location terminology and related UI / database updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">9</td><td class="project" rowspan="1">Edumax HRM</td><td>13 commits (API 6 + frontend 7): role/permission changes and UI updates. <a href="https://github.com/medigeneit/edumax-hrm-api/commits/main?author=MKRashed">API main</a> | <a href="https://github.com/medigeneit/edumax-hrm-api/commits/upgrade/laravel-12?author=MKRashed">API upgrade branch</a> | <a href="https://github.com/medigeneit/edumax-hrm-frontend/commits/main?author=MKRashed">frontend main</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">10</td><td class="project" rowspan="1">BPSC</td><td>11 commits: Admin dashboard, resource management, doctor profiles and image uploads. <a href="https://github.com/medigeneit/bpsc-nextjs/commits/main?author=MKRashed">main history</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">11</td><td class="project" rowspan="1">BGHRI</td><td>3 commits: Exam workflow and automatic handling of expired exams. <a href="https://github.com/medigeneit/bghri.com/commits/main?author=MKRashed">main history</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
+<p class="month-count">15 summarized work items · 5 projects · 36 source PRs · 27 commits</p>
+<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="6">DWT</td><td>Automatic / recurring donation processing and donor status handling.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">2</td><td>Donor reminders, notifications and donation payment short links.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">3</td><td>bKash checkout and SSLCommerz amount-validation updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">4</td><td>Duplicate donor-record prevention and donor lookup improvements.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">5</td><td>Donation forms, media selection, trend charts and UI improvements.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">6</td><td>Error recovery, automatic retry and chunk-loading fixes.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">7</td><td class="project" rowspan="2">Digi Attendance (HRM)</td><td>Meal management across API and frontend.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">8</td><td>Bangla localization, location terminology and related UI / database updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">9</td><td class="project" rowspan="2" data-commits="13">Edumax HRM</td><td>Role and permission update: ‘hr’ migrated to ‘hr_manager’, admin role checks and feature-level access control in routing.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">10</td><td>UI updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">11</td><td class="project" rowspan="3" data-commits="11">BPSC</td><td>Project setup and public site pages: News page with filtering, Services page and SVG icon set.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">12</td><td>Admin dashboard and resource management with slug-based list / edit / delete.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">13</td><td>Image management: course and health-talk video images, site images, doctor photos, and news with images and a rich-text editor.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">14</td><td class="project" rowspan="2" data-commits="3">BGHRI</td><td>Auto-submit commands for expired MCU and prescription-writing exam attempts.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">15</td><td>Exam creation view and layout restructuring.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
 <details class="sources"><summary>Source PRs (36)</summary>
 <p><strong>DWT</strong></p><ul>
 <li><a href="https://github.com/medigeneit/dwt-api/pull/10">medigeneit/dwt-api — PR #10: Auto donation</a> <span class="source-state">(Merged)</span></li>
@@ -316,19 +423,55 @@
 <li><a href="https://github.com/medigeneit/digi-attendance/pull/80">medigeneit/digi-attendance — PR #80: Mkrashed</a> <span class="source-state">(Merged)</span></li>
 <li><a href="https://github.com/medigeneit/digi-attendance-api/pull/74">medigeneit/digi-attendance-api — PR #74: Mkrashed</a> <span class="source-state">(Merged)</span></li>
 </ul>
+</details><details class="sources source-commits"><summary>Source commits (27)</summary>
+<p><strong>Edumax HRM</strong></p><ul>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/1ed535dfb82feb8244ea0bb369e0c59d1141b0fc">edumax-hrm-api — 1ed535d: update role permission</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/3543b33404d208285d3699215bcb56f3b9e7431e">edumax-hrm-api — 3543b33: update role permission</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/a35b8019cb2743eae9dca2f3573c032727a26d1d">edumax-hrm-api — a35b801: route update</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/a9c0779dfac43a47d021a9a790419a908a675997">edumax-hrm-api — a9c0779: Update role permissions and enhance feature access control in routing</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/e167297337f19b61dd60292531a70c55a32f6546">edumax-hrm-api — e167297: feat: update role permissions for 'admin' and migrate 'hr' to 'hr_manager'</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/e7ebe38620d34f97533b631d0f5741fc87f699af">edumax-hrm-api — e7ebe38: Enhance role management by adding 'hr_manager' to admin checks across components</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/6c38334b4d70b2d7cb2ee0d5da26dc1ba762c9fa">edumax-hrm-frontend — 6c38334: Update role permissions and enhance feature access control in routing</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/720a13fb4760fbaa580853efb2492e59d145944f">edumax-hrm-frontend — 720a13f: Enhance role management by adding 'hr_manager' to admin checks across components</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/e21e9ef8a3bab6abec439297b7ea259c0c5843fc">edumax-hrm-frontend — e21e9ef: update role permission</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/f289ea91a69b75dda46e56169880c24b68aba0e9">edumax-hrm-frontend — f289ea9: permission update</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/1ce48fbc8731cbfc8a918319450a7d8cde1daa19">edumax-hrm-frontend — 1ce48fb: update ui</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/57aef851ee58bafc08a307de9db2bf8ac38cb546">edumax-hrm-frontend — 57aef85: ui update</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/af1663ce0798250d9a5e3affe73a49c223b198f2">edumax-hrm-frontend — af1663c: update</a></li>
+</ul>
+<p><strong>BPSC</strong></p><ul>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/476103d965ab65062e1def1a5ab8e06ba19a9e77">bpsc-nextjs — 476103d: first commit</a></li>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/00ce969adecb04a73603e7df4546736c93f30510">bpsc-nextjs — 00ce969: Add NewsPage component with responsive design and news filtering functionality</a></li>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/52b052e36db737c3ce5124ce5b4a2cdcbb637705">bpsc-nextjs — 52b052e: Add new SVG icons for various components</a></li>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/c392af532068271e14584781f06a90fffdab8525">bpsc-nextjs — c392af5: feat: add ServicesPage component with detailed service descriptions and navigation</a></li>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/983fafd9d1e451a3bac38eb12aac09114e36f04d">bpsc-nextjs — 983fafd: feat: add admin dashboard and resource management components</a></li>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/516e31cd43958d848b68348b37ef92e4b933b8cf">bpsc-nextjs — 516e31c: feat: update resource handling to use slug as keyField for list/edit/delete operations</a></li>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/123ed0da186fb1e6b04f109c8060f3127af74b92">bpsc-nextjs — 123ed0d: Refactor code structure for improved readability and maintainability</a></li>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/01da97e3f97c0b34e07d863cca25a1e940599887">bpsc-nextjs — 01da97e: Add image upload and deletion functionality for courses and health talk videos</a></li>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/0772cca5eda09d9805126b2eebf2b8614c16a1e8">bpsc-nextjs — 0772cca: feat: implement site images management with upload and display functionality</a></li>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/3508f936034caf22f9a8b3bf9bece47010656505">bpsc-nextjs — 3508f93: feat: integrate DoctorPhoto component for improved doctor image handling</a></li>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/f2368df445442885f695db10f6179f0d2f137c48">bpsc-nextjs — f2368df: feat: enhance news and resource management with image handling and rich text editor</a></li>
+</ul>
+<p><strong>BGHRI</strong></p><ul>
+<li><a href="https://github.com/medigeneit/bghri.com/commit/8394ba1f698df1d1c2d4f8dac77b90121bbe8752">bghri.com — 8394ba1: Add auto-submit command for expired MCU exam attempts and update exam logic</a></li>
+<li><a href="https://github.com/medigeneit/bghri.com/commit/ec90667a1912472c48fb9a177ddf7ceb32e79f16">bghri.com — ec90667: Add auto-submit command for expired prescription-writing exams and update exam logic</a></li>
+<li><a href="https://github.com/medigeneit/bghri.com/commit/b64d63b850c27a0d574fd3d0d6d07097a550f400">bghri.com — b64d63b: Refactor exam creation view and layout for improved structure and styling</a></li>
+</ul>
 </details></section>
 <section class="month" data-month="SEP"><h2>Monthly Report of SEP 2026</h2>
 <table class="meta"><tbody><tr><td>Name</td><td>Md. Rashedul Islam</td></tr>
 <tr><td>Designation</td><td>Software Engineer</td></tr></tbody></table>
-<p class="month-count">8 summarized work items · 5 projects · 19 source PRs · 21 commits</p>
-<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="2">DWT</td><td>Recurring payment / automatic donation updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">2</td><td>Donation source identification and list / resource improvements.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">3</td><td class="project" rowspan="3">Digi Attendance (HRM)</td><td>SCM requisition features across API and frontend.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">4</td><td>PM task integration, task filtering and sorting.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">5</td><td>Task notification fixes and current-day attendance highlighting.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">6</td><td class="project" rowspan="1">Soul Pharma HRM</td><td>17 commits (frontend 14 + API 3): task-tracker foundation, deployment configuration and API resources. <a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commits/main?author=MKRashed">frontend main</a> | <a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commits/live?author=MKRashed">frontend live</a> | <a href="https://github.com/medigeneit/soul-pharma-hrm-api/commits/main?author=MKRashed">API main</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">7</td><td class="project" rowspan="1">Edumax HRM</td><td>3 commits (API 1 + frontend 2): task management API and frontend task-tracker/navigation work. <a href="https://github.com/medigeneit/edumax-hrm-api/commits/main?author=MKRashed">API main</a> | <a href="https://github.com/medigeneit/edumax-hrm-frontend/commits/main?author=MKRashed">frontend main</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">8</td><td class="project" rowspan="1">BPSC</td><td>1 commit: UI refinement. <a href="https://github.com/medigeneit/bpsc-nextjs/commits/main?author=MKRashed">main history</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
+<p class="month-count">10 summarized work items · 5 projects · 19 source PRs · 21 commits</p>
+<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="2">DWT</td><td>Recurring payment / automatic donation updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">2</td><td>Donation source identification and list / resource improvements.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">3</td><td class="project" rowspan="3">Digi Attendance (HRM)</td><td>SCM requisition features across API and frontend.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">4</td><td>PM task integration, task filtering and sorting.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">5</td><td>Task notification fixes and current-day attendance highlighting.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">6</td><td class="project" rowspan="3" data-commits="17">Soul Pharma HRM</td><td>Project setup for API and frontend: dashboard, Not Found, Privacy Policy, Register and Unauthorized pages.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">7</td><td>Production deployment: live branch, deploy workflow, and API URL / WebSocket environment configuration.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">8</td><td>Task management: API resources, models and requests; task-tracker store on the frontend.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">9</td><td class="project" rowspan="1" data-commits="3">Edumax HRM</td><td>Task management API (requests, resources, attachments) and frontend task-tracker store; task list hidden from non-admin navigation.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">10</td><td class="project" rowspan="1" data-commits="1">BPSC</td><td>Hover component border-normalization UI fix.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
 <details class="sources"><summary>Source PRs (19)</summary>
 <p><strong>DWT</strong></p><ul>
 <li><a href="https://github.com/medigeneit/dwt-api/pull/22">medigeneit/dwt-api — PR #22: update recuring payment</a> <span class="source-state">(Merged)</span></li>
@@ -353,20 +496,57 @@
 <li><a href="https://github.com/medigeneit/digi-attendance/pull/88">medigeneit/digi-attendance — PR #88: Feature/pm task integration</a> <span class="source-state">(Merged)</span></li>
 <li><a href="https://github.com/medigeneit/digi-attendance-api/pull/78">medigeneit/digi-attendance-api — PR #78: Feature/pm task integration</a> <span class="source-state">(Merged)</span></li>
 </ul>
+</details><details class="sources source-commits"><summary>Source commits (21)</summary>
+<p><strong>Soul Pharma HRM</strong></p><ul>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/3689c6813a7519a33f820a60dd729e86702ad141">soul-pharma-hrm-api — 3689c68: first commit</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/0e0a8ac8df32c8fe8929a45a6f17a2ca306e31ba">soul-pharma-hrm-api — 0e0a8ac: 2nd commit</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/668eab8937c8cbcd75d50b02a6bc3342abf41b49">soul-pharma-hrm-frontend — 668eab8: first commit</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/7ef7b3804ca7135ab9189ce217f1cef5018f4e48">soul-pharma-hrm-frontend — 7ef7b38: dashboard update</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/9eb4b527d87e885d7372c4dcbd55ff0f5e6eee69">soul-pharma-hrm-frontend — 9eb4b52: Refactor code structure for improved readability and maintainability</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/bac0093d41ade284f633c75d39907f0f36d18089">soul-pharma-hrm-frontend — bac0093: feat: add NotFound, PrivacyPolicy, RegisterView, and UnauthorizedView components</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/019a2b1f624e50b3626a841a38c7636faf0c0f1d">soul-pharma-hrm-frontend — 019a2b1: update live branch</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/61a08cc02058f750cf75ea83dc76b89f4fbcd286">soul-pharma-hrm-frontend — 61a08cc: Update production environment variables for API</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/a7828cb612292cb4fac25f9568972244f9fe5b85">soul-pharma-hrm-frontend — a7828cb: Uncomment WebSocket configuration in .env.demo</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/da52ad0e39c4e7901b112ee947078545bdfdbe2d">soul-pharma-hrm-frontend — da52ad0: Update deploy.yml</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/eb8e64a8aa89a569795865a9b5673b35cbcd3a8f">soul-pharma-hrm-frontend — eb8e64a: Clarify WSS tunnel comment in .env.demo</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/1dd102c310025dc81227d30045197a4a9e3064af">soul-pharma-hrm-frontend — 1dd102c: Fix formatting of VITE_API_BASE_URL in .env.production</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/27458f7257fd74770b12c8740216422a025ac56c">soul-pharma-hrm-frontend — 27458f7: Uncomment VITE_API_BASE_URL in production env</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/8754ee672db781ef993929acbcf86a2c5e8861eb">soul-pharma-hrm-frontend — 8754ee6: Comment out VITE_API_BASE_URL in .env.production</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/ca0c77b7e16c79c83f076f50c5d6c824b5fbda69">soul-pharma-hrm-frontend — ca0c77b: Fix VITE_API_BASE_URL protocol in production env</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/1633b186525343db39ca292a3745509bc934fd02">soul-pharma-hrm-api — 1633b18: feat(pm): add new resources, models, and request for task management</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/911817749c5aa8e6087c5e5300bd426df62ffbd5">soul-pharma-hrm-frontend — 9118177: feat(task-tracker): implement task tracker store and related utilities</a></li>
+</ul>
+<p><strong>Edumax HRM</strong></p><ul>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/4890e355747ae65265aae0be6de9e7bb6b3f8712">edumax-hrm-api — 4890e35: feat(pm): add task management features including requests, resources, and attachments</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/8892b6c52a6da3baf8f4a5fc20f158c415686d04">edumax-hrm-frontend — 8892b6c: feat(task-tracker): implement task tracker store and related utilities</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/ed1b2c6004f6508b8d03fc6a97e0656e6a102de3">edumax-hrm-frontend — ed1b2c6: refactor(useSidebarNav): remove task list from non-admin users' navigation</a></li>
+</ul>
+<p><strong>BPSC</strong></p><ul>
+<li><a href="https://github.com/medigeneit/bpsc-nextjs/commit/ce0d439a413029525a9f4eb1dccd9da85e7f49be">bpsc-nextjs — ce0d439: feat: improve hover component with border normalization logic</a></li>
+</ul>
 </details></section>
 <section class="month" data-month="OCT"><h2>Monthly Report of OCT 2026</h2>
 <table class="meta"><tbody><tr><td>Name</td><td>Md. Rashedul Islam</td></tr>
 <tr><td>Designation</td><td>Software Engineer</td></tr></tbody></table>
-<p class="month-count">9 summarized work items · 5 projects · 14 source PRs · 46 commits</p>
-<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="3">DWT</td><td>Automatic donation management and donor / DID registration validation.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">2</td><td>Form layout, accessibility, placeholders and visibility improvements.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">3</td><td>Donor controller cleanup, error handling and soft-delete support.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">4</td><td class="project" rowspan="3">IPMS</td><td>Laravel 11 upgrade and dependency updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">5</td><td>Sanctum middleware and CSRF validation updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">6</td><td>Frontend state-management refactor from Vuex to Pinia.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">7</td><td class="project" rowspan="1">Soul Pharma HRM</td><td>7 commits (frontend 3 + API 4): company/branch and employment status, approval-flow updates. <a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commits/main?author=MKRashed">frontend main</a> | <a href="https://github.com/medigeneit/soul-pharma-hrm-api/commits/main?author=MKRashed">API main</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">8</td><td class="project" rowspan="1">BGHRI</td><td>1 commit: Prescription exam display and deletion logic. <a href="https://github.com/medigeneit/bghri.com/commits/main?author=MKRashed">main history</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">9</td><td class="project" rowspan="1">MedCat</td><td>38 commits (API 17 + frontend 21): notes/tests, expert media, premium courses, admin content and downloads. <a href="https://github.com/MKRashed/medcat-api/commits/main?author=MKRashed">API main</a> | <a href="https://github.com/MKRashed/medcat-frontend/commits/main?author=MKRashed">frontend main</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
+<p class="month-count">18 summarized work items · 5 projects · 14 source PRs · 46 commits</p>
+<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="3">DWT</td><td>Automatic donation management and donor / DID registration validation.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">2</td><td>Form layout, accessibility, placeholders and visibility improvements.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">3</td><td>Donor controller cleanup, error handling and soft-delete support.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">4</td><td class="project" rowspan="3">IPMS</td><td>Laravel 11 upgrade and dependency updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">5</td><td>Sanctum middleware and CSRF validation updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">6</td><td>Frontend state-management refactor from Vuex to Pinia.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">7</td><td class="project" rowspan="3" data-commits="7">Soul Pharma HRM</td><td>Employment cutoff logic and access control; ‘Provisional’ renamed to ‘Probationary’ and ‘Inactive’ shown as ‘Former Employee’.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">8</td><td>Overtime approval sync and observer.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">9</td><td>Terminology updates: “Branch” → “Company” and “Recommend By” → “Manager” across approvals.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">10</td><td class="project" rowspan="1" data-commits="1">BGHRI</td><td>Prescription-writing exam deletion logic and exam card display.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">11</td><td class="project" rowspan="8" data-commits="38">MedCat</td><td>Project setup for API and frontend; PDF preview for notes and revision files.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">12</td><td>Notes and tests: new “Test” note kind, owner self-review, and admin Tests page / notes list.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">13</td><td>Expert photos and media storage: MediaStorage service, migration to new S3 disks and expert management display.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">14</td><td>Premium courses and course enquiries management.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">15</td><td>Blog and articles: blog listing with search, TipTap rich-text editor, HTML sanitizer and audit log.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">16</td><td>Users and auth: profession field, international phone input, user search, registration rate limits, password rules and session checks.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">17</td><td>Downloads: signed URLs, download filenames, progress indicator and loading states.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">18</td><td>Site UI and branding: dynamic site copy and images, loader / logo, header, hero and social icons; API error handling with tests.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
 <details class="sources"><summary>Source PRs (14)</summary>
 <p><strong>DWT</strong></p><ul>
 <li><a href="https://github.com/medigeneit/dwt/pull/48">medigeneit/dwt — PR #48: Enhance DonorMemberForm: Implement DID choice handling and validation…</a> <span class="source-state">(Merged)</span></li>
@@ -386,27 +566,88 @@
 <li><a href="https://github.com/medigeneit/ipmsapi/pull/32">medigeneit/ipmsapi — PR #32: feat: upgrade Laravel framework and dependencies to version 11</a> <span class="source-state">(Merged)</span></li>
 <li><a href="https://github.com/medigeneit/ipms/pull/48">medigeneit/ipms — PR #48: Refactor/vuex to pinia</a> <span class="source-state">(Merged)</span></li>
 </ul>
+</details><details class="sources source-commits"><summary>Source commits (46)</summary>
+<p><strong>Soul Pharma HRM</strong></p><ul>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/c59d4e38015e7ac136f786af7af4397f16059139">soul-pharma-hrm-api — c59d4e3: feat: Implement employment cutoff logic and access control</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/2de410f504f416b5ce0f95ff9960e115cbdc81dd">soul-pharma-hrm-api — 2de410f: feat: Add migration to rename 'Provisional' to 'Probationary' in users' employment type</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/855c5750d5608d1ef22ec6f1208f8768a77e7105">soul-pharma-hrm-frontend — 855c575: refactor: update user status terminology from 'Inactive' to 'Former Employee' across user management views and logic</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/331b31be0c858561e929f568c1930fba25e6649f">soul-pharma-hrm-api — 331b31b: feat: Implement Overtime Approval Sync and Observer</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/46fb92d3da523edf4d03d718b8902dfa68f2a891">soul-pharma-hrm-frontend — 46fb92d: refactor: replace "Branch" terminology with "Company" across multiple components</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/fda6b4c7d21349474cb23ac0bacd682515433e96">soul-pharma-hrm-api — fda6b4c: feat: Update 'Recommend By' label to 'Manager' across multiple controllers and services</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/2a7e4df9c1b6ea17cef59eae54d0ae74c0f2d5ea">soul-pharma-hrm-frontend — 2a7e4df: refactor: update 'Recommend By' terminology to 'Manager' across approval sections and related components</a></li>
+</ul>
+<p><strong>BGHRI</strong></p><ul>
+<li><a href="https://github.com/medigeneit/bghri.com/commit/8f40265aa0a431ada92d0af934b978285f4dae08">bghri.com — 8f40265: Enhance prescription writing functionality by refining exam deletion logic and improving exam card display in the view</a></li>
+</ul>
+<p><strong>MedCat</strong></p><ul>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/8078fc55334e00058ed54ecd5a109d469fffe692">medcat-api — 8078fc5: first commit</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/66440ef10f16b820c59578d0924c96253d98529a">medcat-api — 66440ef: 2nd commit</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/ade3c439b553f3169933f52390abf08e37458935">medcat-api — ade3c43: Add revision file preview functionality for staff users</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/a1b8a94ada5a72cdc8394616c62acab83956254a">medcat-frontend — a1b8a94: first commit</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/d00eb2de9ff4ad527aa953ca4b302aedbec53b08">medcat-frontend — d00eb2d: 2nd commit</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/d39f5d8e191b180cc636bc9310b6d1024f9647a7">medcat-frontend — d39f5d8: Add ViewPdfButton component and integrate into notes and revisions pages</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/b6bc9c150c38ce5b9481716efc86503cc1c59aaf">medcat-api — b6bc9c1: feat: Introduce "Test" kind for notes and allow self-review for owners</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/2ebcedc47ff98a23b5a32b0866bb0b187c5f46f4">medcat-frontend — 2ebcedc: feat: add TestsPage and NotesList components for managing tests and notes in admin panel</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/aa5735f97ad6a16afde197e5010ed33d65b36c09">medcat-frontend — aa5735f: Remove notes reviewed message from expert display for cleaner UI</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/1ec40abf8bfdde7d8a55fad8637f05f618a6c669">medcat-api — 1ec40ab: Implement photo upload and management for experts, including migration of existing files to new S3 disks</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/4d7bc08ca6a24664518a808baf26aa7579e5e124">medcat-api — 4d7bc08: feat: integrate MediaStorage service for image handling across Expert, Post, and SiteSetting controllers</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/a99227339029d32c661c5a213b33b77e9c7828fb">medcat-frontend — a992273: Enhance expert management features with photo upload and improved display options</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/7f33117f94a4b014f9977f0c38d129a15ed85770">medcat-api — 7f33117: feat: add premium courses and course enquiries management</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/821840c618e28702480541244ec40c89c3c35283">medcat-frontend — 821840c: feat: add BlogPage component for article listing and search functionality</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/860992b57a6676ff513278af4036ec1d030d6742">medcat-frontend — 860992b: feat: implement PostBodyEditor and RichText components for enhanced article editing and rendering</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/8897da594b0094017388add99fa4afbf73c7568b">medcat-frontend — 8897da5: feat: add RichEditor component with TipTap integration and customizable toolbar</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/99a5088ba2ec6fbef0bf1cdf6a6c48e27365a209">medcat-api — 99a5088: feat: implement HTML sanitizer for rich text editor and enhance audit log functionality</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/0c9a948137b5f5471097f17ab8154e5717ebea8a">medcat-api — 0c9a948: feat: add profession field to user model and related requests, resources, and migrations</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/74c122158729acee3c61c7cb62206ddf09f66af3">medcat-frontend — 74c1221: feat: Add profession field to user profile and implement profession selection in forms</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/9e174a1480e88ab9471fd4416932be5408581131">medcat-frontend — 9e174a1: feat: add PhoneField component for international phone number input and validation</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/71a46efba294483df4739d0af9e33abc3391eee3">medcat-api — 71a46ef: feat: add free-text search to user index and optimize permissions loading</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/8f8abbaa6606aa323237a0eed6c20ca1249a3935">medcat-frontend — 8f8abba: feat: enhance user search functionality with debounce and flexible input</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/889e17203354e7986ed6a55ef95286d3b78890e0">medcat-api — 889e172: feat: adjust rate limiting for registration in local environment</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/8b624be2d0c055a23c79edd5151fb35ef8c47fe1">medcat-api — 8b624be: feat: update rate limits for registration endpoint</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/4d04f6f730c2348fc151e924c09cfc461f0a38c7">medcat-api — 4d04f6f: feat: simplify password validation logic in AppServiceProvider</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/fce1203feb8dfcc26cfe56d2df72386beacede65">medcat-api — fce1203: Add CheckAuth command and tests for session persistence verification</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/0be0b61b6dda79841ea403ed3a0d5b692adda51d">medcat-api — 0be0b61: feat: add Content-Disposition to exposed headers for download filename handling</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/26249a2ebcf497741999ca77099aa4b9b7fb816b">medcat-api — 26249a2: feat: update signed URL generation to use relative signatures for download and revision file routes</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/1dcd253dbb06b7c816cae631ca9a9a1cd4be1fc3">medcat-frontend — 1dcd253: feat: update TestsPage and MedcatSite components for improved download functionality and UI enhancements</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/5e20f7f4e9872c27f7a12a0725efacb94d316334">medcat-frontend — 5e20f7f: feat: enhance download button functionality with loading state and improved accessibility</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/eb7f6df93a65a603585efa3b69e3a7a8f11c3975">medcat-frontend — eb7f6df: feat: implement download progress indicator for file downloads</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/12db0389b20b1eed607346e381aeea0b0aeb18d3">medcat-frontend — 12db038: feat: Enhance MedcatSite with dynamic site copy and image handling</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/15f9c080c997af38740530ca3f3d61cc0a482e31">medcat-frontend — 15f9c08: style: simplify button styling in hero section for improved layout</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/7e4d40351504f47332617236325f19d67b090e6f">medcat-frontend — 7e4d403: style: Adjust header layout and logo presentation for improved aesthetics</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/780c3666fe2a6f4485e619f01a1fcbecb578ed67">medcat-frontend — 780c366: Add MedcatLoader and MedcatMark components for improved loading indicators and branding</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/12986a9969e2f42d2134befe74ca10ef98744d41">medcat-frontend — 12986a9: Refactor social media icons layout for improved styling and structure</a></li>
+<li><a href="https://github.com/MKRashed/medcat-frontend/commit/0b8d7e47ea6d6dfb71d38e34ae6a3c8af084bb05">medcat-frontend — 0b8d7e4: Refactor code structure for improved readability and maintainability</a></li>
+<li><a href="https://github.com/MKRashed/medcat-api/commit/29c1d97b77a2359cbdf0b2ab0ef4b97005d1a9bc">medcat-api — 29c1d97: Refactor ApiExceptionRenderer to use JsonResponse directly and add unit tests for error handling</a></li>
+</ul>
 </details></section>
 <section class="month" data-month="NOV"><h2>Monthly Report of NOV 2026</h2>
 <table class="meta"><tbody><tr><td>Name</td><td>Md. Rashedul Islam</td></tr>
 <tr><td>Designation</td><td>Software Engineer</td></tr></tbody></table>
-<p class="month-count">16 summarized work items · 6 projects · 36 source PRs · 35 commits · Nov 1–16 only</p>
-<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="4">CMRD / IRB</td><td>IRB v2 updates across API and frontend.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">2</td><td>IRB board / committee member management and terminology updates.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">3</td><td>Genesis Accounting repository configuration.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">4</td><td>Two standalone IRB Nuxt v2 PRs were closed without merging.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">5</td><td class="project" rowspan="5">IPMS</td><td>Laravel 11 upgrade work and Vuex-to-Pinia refactoring.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">6</td><td>Clinical document API and prescription dashboard statistics.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">7</td><td>Doctor profile email / language support and counter settings.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">8</td><td>Appointment / home page options and role-based workspace switching.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">9</td><td>Ongoing campaign event filtering fix.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">10</td><td class="project" rowspan="4">Digi Attendance (HRM)</td><td>Laravel 12 upgrade work.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">11</td><td>Leave application extensions, parent links, eligibility and granting permissions.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">12</td><td>Payroll adjustment authorization and notice department-role support.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">13</td><td>Extension decisions for open probationary reviews.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">14</td><td class="project" rowspan="1">DWT</td><td>Laravel 12 upgrade work.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">15</td><td class="project" rowspan="1">Edumax HRM</td><td>Laravel 12 upgrade work; 10 commits (API 7 + frontend 3) covering device attendance and frontend table/pagination improvements. <a href="https://github.com/medigeneit/edumax-hrm-api/commits/main?author=MKRashed">API main</a> | <a href="https://github.com/medigeneit/edumax-hrm-api/commits/upgrade/laravel-12?author=MKRashed">API upgrade branch</a> | <a href="https://github.com/medigeneit/edumax-hrm-frontend/commits/main?author=MKRashed">frontend main</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr>
-<tr><td class="sl">16</td><td class="project" rowspan="1">Soul Pharma HRM</td><td>25 commits (frontend 14 + API 11): salary-sheet exports, payroll policy visibility, paycuts, attendance applications and approval logic. <a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commits/main?author=MKRashed">frontend main</a> | <a href="https://github.com/medigeneit/soul-pharma-hrm-api/commits/main?author=MKRashed">API main</a>.</td><td class="status"></td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
+<p class="month-count">24 summarized work items · 6 projects · 36 source PRs · 35 commits · Nov 1–16 only</p>
+<div class="table-scroll"><table class="report"><colgroup><col style="width:6%"><col style="width:17%"><col style="width:42%"><col style="width:10%"><col style="width:12.5%"><col style="width:12.5%"></colgroup><thead><tr><th>SL</th><th>Project</th><th>Details</th><th>Status<br>(%)</th><th>Assigned<br>Score</th><th>Earned<br>Score</th></tr></thead><tbody><tr><td class="sl">1</td><td class="project" rowspan="4">CMRD / IRB</td><td>IRB v2 updates across API and frontend.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">2</td><td>IRB board / committee member management and terminology updates.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">3</td><td>Genesis Accounting repository configuration.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">4</td><td>Two standalone IRB Nuxt v2 PRs were closed without merging.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">5</td><td class="project" rowspan="5">IPMS</td><td>Laravel 11 upgrade work and Vuex-to-Pinia refactoring.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">6</td><td>Clinical document API and prescription dashboard statistics.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">7</td><td>Doctor profile email / language support and counter settings.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">8</td><td>Appointment / home page options and role-based workspace switching.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">9</td><td>Ongoing campaign event filtering fix.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">10</td><td class="project" rowspan="4">Digi Attendance (HRM)</td><td>Laravel 12 upgrade work.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">11</td><td>Leave application extensions, parent links, eligibility and granting permissions.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">12</td><td>Payroll adjustment authorization and notice department-role support.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">13</td><td>Extension decisions for open probationary reviews.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">14</td><td class="project" rowspan="1">DWT</td><td>Laravel 12 upgrade work.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">15</td><td class="project" rowspan="3" data-commits="10">Edumax HRM</td><td>Laravel 12 upgrade: Laravel 11 → 12, PHP 8.3 compatibility, verification and upgrade guide.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">16</td><td>Device attendance: working-cycle documentation, routes and feature tests; device form validation.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">17</td><td>Shared page header and table pagination / sorting.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">18</td><td class="project" rowspan="7" data-commits="25">Soul Pharma HRM</td><td>Daily paycut: calculation, attendance-summary breakdown, paycut management and breakdown tooltip.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">19</td><td>Overtime and leave approvals: approval logic and approval-chain snapshots with tests, notification access control.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">20</td><td>Monthly manual attendance applications (API and view).</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">21</td><td>Payroll work policies and assignments; forwarders renamed to authorizers; regenerate permission for reviewed batches.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">22</td><td>Salary sheets: renamed from Payroll, PDF download / export and Soul Pharma column visibility.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">23</td><td>Bank accounts: CR branch and process code fields.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr>
+<tr><td class="sl">24</td><td>Cache prefix and middleware configuration.</td><td class="status">100%</td><td class="score"></td><td class="score"></td></tr></tbody></table></div>
 <details class="sources"><summary>Source PRs (36)</summary>
 <p><strong>CMRD / IRB</strong></p><ul>
 <li><a href="https://github.com/medigeneit/irb-nuxt/pull/1">medigeneit/irb-nuxt — PR #1: Irb v2</a> <span class="source-state">(Closed unmerged)</span></li>
@@ -455,5 +696,303 @@
 <p><strong>Edumax HRM</strong></p><ul>
 <li><a href="https://github.com/medigeneit/edumax-hrm-api/pull/1">medigeneit/edumax-hrm-api — PR #1: Upgrade/laravel 12</a> <span class="source-state">(Merged)</span></li>
 </ul>
+</details><details class="sources source-commits"><summary>Source commits (35)</summary>
+<p><strong>Edumax HRM</strong></p><ul>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/a1ace1adbd55896d6ecf3a07d9f7e00d62bbc870">edumax-hrm-api — a1ace1a: chore: add Laravel 12 upgrade guide, baseline report and PHP 8.3 platform</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/7eec51ebfaed6568efd6f2fd8562ae39345603f0">edumax-hrm-api — 7eec51e: upgrade: stage B - Laravel 11</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/bd1f5e531a1ca2bdf9c3cb4580f46f477c790fba">edumax-hrm-api — bd1f5e5: upgrade: stage C - Laravel 12</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/be41911067561c213d1227ca04b71892c7307399">edumax-hrm-api — be41911: upgrade: step D - PHP 8.3 compatibility</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/b61b3f62c86f56955760a5184135b093d5a62abd">edumax-hrm-api — b61b3f6: upgrade: step E - verification</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/7f11f83678aa039a06a8bbce3366023823fac2c5">edumax-hrm-api — 7f11f83: Merge pull request #1 from medigeneit/upgrade/laravel-12</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-api/commit/2000ae5aaee5f6980544b8452efbbb1b7508db44">edumax-hrm-api — 2000ae5: Add device attendance working cycle documentation, routes, and feature tests</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/176fd51528b8fd8161abd18b6196d515aa92317c">edumax-hrm-frontend — 176fd51: feat: Refactor DeviceModal component for improved form handling and validation</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/72561b7fd240f8ed04ea35e16677236bd12fff9e">edumax-hrm-frontend — 72561b7: feat: implement shared PageHeader component across various views</a></li>
+<li><a href="https://github.com/medigeneit/edumax-hrm-frontend/commit/a55459b4f885e243741c93fffac31ce39f4f4918">edumax-hrm-frontend — a55459b: feat: enhance table components with pagination and sorting features</a></li>
+</ul>
+<p><strong>Soul Pharma HRM</strong></p><ul>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/63f0432637ea304d1c5b67c10e5c92b99bea58c2">soul-pharma-hrm-api — 63f0432: feat: Add daily paycut functionality and enhance attendance summary generation</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/dd5fd012f4819edaec8b4d6b62566c2ea5009c13">soul-pharma-hrm-api — dd5fd01: feat(payroll): add detailed attendance paycut breakdown</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/2f28c2da5d0a028648da6a25c52207b1c90e27a4">soul-pharma-hrm-frontend — 2f28c2d: feat: enhance paycut management button visibility based on attendance status</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/d8004d1c0daf4b058d893bd59401a334b8e38bf4">soul-pharma-hrm-frontend — d8004d1: feat: implement daily paycut management and display in attendance views</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/d8bf2be1f1458907a5aa62117388ed7fc92fca5d">soul-pharma-hrm-frontend — d8bf2be: feat: add PaycutBreakdownTooltip component for detailed paycut information</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/3d680baa0e919f7447f2d9d542646c76ea01cbdc">soul-pharma-hrm-api — 3d680ba: Refactor OvertimeController to enhance approval logic and add tests for overtime visibility</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/74230f57fedcab475a62688d5ac7ef77acd1c3d2">soul-pharma-hrm-api — 74230f5: Refactor NotificationController to handle leave applications with dedicated approval logic</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/9df22d737128566fe244357f3e8bbad87d2eb4aa">soul-pharma-hrm-api — 9df22d7: Enhance NotificationController with snapshot handling and add tests for approval chain</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/6ee2a3c9e521f8bf4ea7baa456081022dcc04ddc">soul-pharma-hrm-frontend — 6ee2a3c: refactor: update overtime applications link and enhance notification access control</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/459709f0941caa907e463bcfa91681077a2fed6b">soul-pharma-hrm-frontend — 459709f: refactor: update overtime application terminology and enhance UI elements for clarity</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/673ec1e47b04ba73d250cf5b901c7e60c7f6b653">soul-pharma-hrm-api — 673ec1e: feat: add monthly attendance applications retrieval by manual attendance ID</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/ebe35b32f1268841f5049e453376c330bfa73da9">soul-pharma-hrm-frontend — ebe35b3: feat: add Monthly Manual Attendance Applications view and update routing</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/077c60aa074997323c35cbf092e43a68db719d72">soul-pharma-hrm-api — 077c60a: feat(payroll): implement payroll work policies and assignments</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/2a1d176a8e784312477d47ea77d5e2b2bd57f4d1">soul-pharma-hrm-api — 2a1d176: refactor(payroll): rename forwarders to authorizers and remove forwarding functionality</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/37ad64045adadcd038843fe7f3915d19dce5530f">soul-pharma-hrm-api — 37ad640: refactor(payroll): update permission check for regenerating reviewed payroll batches</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/bb4c025f995146d4310ff9ceecdd00cb623f7e0d">soul-pharma-hrm-frontend — bb4c025: feat: implement payroll work policies management and summary components</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/8a2d237d9af6037f8506a6f90ce88e4c866cf085">soul-pharma-hrm-frontend — 8a2d237: feat: update reviewed action permissions to include regenerate option</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/0f047398072432219ae2e074d9b0ff23c99dce0d">soul-pharma-hrm-frontend — 0f04739: feat: rename Payroll references to Salary Sheets for consistency</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/b055c175c46c0e234d951d36081ad115097a8836">soul-pharma-hrm-frontend — b055c17: feat: add PDF download functionality for salary sheets</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/078ed57b522338fa77bb3222681c6f5727494cc6">soul-pharma-hrm-frontend — 078ed57: feat: enhance PDF export by including employee ID and adjusting column widths</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/12cee56ded8e9c65b899102b99862511878a35ae">soul-pharma-hrm-frontend — 12cee56: feat: simplify PDF export by removing employee ID from salary sheet rows</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/a871dc7ad9b3cc1fd2cd0584c89f7fe701b49603">soul-pharma-hrm-frontend — a871dc7: feat: hide specific columns for Soul Pharma payrolls and adjust visibility logic</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/e958c9a1db4ef1b7e89cf0723c52a20fc52dd729">soul-pharma-hrm-api — e958c9a: feat: add cr_branch and process_code fields to user and company bank account models, respectively</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-frontend/commit/17fe98af44b9126b756cc3a5db0de52fa9dfbc94">soul-pharma-hrm-frontend — 17fe98a: feat: add process code field to bank account forms and update related components</a></li>
+<li><a href="https://github.com/medigeneit/soul-pharma-hrm-api/commit/a653843f7898b451df7c34968728b5f2f3b6a95c">soul-pharma-hrm-api — a653843: feat: Update cache prefix format and middleware configuration</a></li>
+</ul>
 </details></section>
+<script>
+(function () {
+  var COLORS = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300', '#6250d6', '#e34948'];
+  var OTHER_COLOR = '#8b8a85';
+  var COMMIT_COLOR = '#6250d6';
+  var SVG = 'http://www.w3.org/2000/svg';
+
+  function el(tag, attrs, text) {
+    var node = document.createElementNS(SVG, tag);
+    Object.keys(attrs || {}).forEach(function (k) { node.setAttribute(k, attrs[k]); });
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+  }
+  function sum(obj) { return Object.keys(obj).reduce(function (t, k) { return t + obj[k]; }, 0); }
+
+  // ---- Read the data from the monthly sections ----
+  var repoProject = {};
+  var months = [];
+  document.querySelectorAll('section.month').forEach(function (sec) {
+    var key = sec.dataset.month;
+    sec.id = 'm-' + key;
+    var countText = (sec.querySelector('.month-count') || {}).textContent || '';
+    var partial = countText.match(/([A-Z][a-z]{2} 1–\d+) only/);
+    var m = { key: key, label: key.charAt(0) + key.slice(1).toLowerCase(), partial: partial ? partial[1] : '',
+      prs: {}, commits: {}, merged: 0, closed: 0, open: 0, items: 0, projects: [], sources: [] };
+
+    var current = null;
+    sec.querySelectorAll('table.report tbody tr').forEach(function (tr) {
+      m.items++;
+      var projectCell = tr.querySelector('td.project');
+      if (projectCell) {
+        current = projectCell.firstChild.textContent.trim();
+        if (m.projects.indexOf(current) < 0) m.projects.push(current);
+      }
+      if (projectCell && projectCell.dataset.commits) {
+        m.commits[current] = (m.commits[current] || 0) + Number(projectCell.dataset.commits);
+      }
+    });
+
+    sec.querySelectorAll('details.sources').forEach(function (block) {
+      var project = null;
+      block.querySelectorAll('p, li').forEach(function (node) {
+        if (node.tagName === 'P') { project = node.textContent.trim(); return; }
+        var link = node.querySelector('a');
+        if (!link) return;
+        var repo = (link.getAttribute('href').match(/github\.com\/([^/]+\/[^/]+)\/pull/) || [])[1];
+        if (!repo) return;
+        if (project && repo) repoProject[repo] = project;
+        m.sources.push({ project: project, repo: repo, state: (node.querySelector('.source-state') || {}).textContent || '' });
+      });
+    });
+    months.push(m);
+  });
+
+  months.forEach(function (m) {
+    m.sources.forEach(function (s) {
+      var p = s.project || repoProject[s.repo] || 'Other';
+      m.prs[p] = (m.prs[p] || 0) + 1;
+      if (/Merged/.test(s.state)) m.merged++;
+      else if (/Open/.test(s.state)) m.open++;
+      else m.closed++;
+    });
+    m.prTotal = sum(m.prs);
+    m.commitTotal = sum(m.commits);
+  });
+
+  // ---- Project totals ----
+  var projects = {};
+  months.forEach(function (m) {
+    function touch(p) { return projects[p] || (projects[p] = { name: p, prs: 0, commits: 0, months: [] }); }
+    Object.keys(m.prs).forEach(function (p) { touch(p).prs += m.prs[p]; });
+    Object.keys(m.commits).forEach(function (p) { touch(p).commits += m.commits[p]; });
+    m.projects.concat(Object.keys(m.prs)).forEach(function (p) {
+      var rec = touch(p);
+      if (rec.months.indexOf(m.label) < 0) rec.months.push(m.label);
+    });
+  });
+  var projectList = Object.keys(projects).map(function (k) { return projects[k]; })
+    .sort(function (a, b) { return b.prs - a.prs || b.commits - a.commits || a.name.localeCompare(b.name); });
+
+  // Colors follow the project (fixed slot order by YTD PR volume), never the month.
+  var prProjects = projectList.filter(function (p) { return p.prs > 0; });
+  var colorOf = {};
+  prProjects.forEach(function (p, i) { colorOf[p.name] = i < COLORS.length ? COLORS[i] : OTHER_COLOR; });
+
+  var totals = months.reduce(function (t, m) {
+    t.prs += m.prTotal; t.merged += m.merged; t.closed += m.closed; t.open += m.open;
+    t.commits += m.commitTotal; t.items += m.items; return t;
+  }, { prs: 0, merged: 0, closed: 0, open: 0, commits: 0, items: 0 });
+  var commitMonths = months.filter(function (m) { return m.commitTotal > 0; });
+  var maxPrs = Math.max.apply(null, months.map(function (m) { return m.prTotal; }));
+  var busiest = months.filter(function (m) { return m.prTotal === maxPrs; }).map(function (m) { return m.label; });
+
+  // ---- KPI tiles ----
+  var closedText = [totals.closed ? totals.closed + ' closed' : '', totals.open ? totals.open + ' open' : ''].filter(Boolean).join(' · ');
+  var kpis = [
+    ['Pull requests', totals.prs, totals.merged + ' merged' + (closedText ? ' · ' + closedText : '')],
+    ['Merge rate', (totals.prs ? (totals.merged / totals.prs * 100).toFixed(1) : '0') + '%', 'of all PRs opened this year'],
+    ['Additional commits', totals.commits, commitMonths.length ? commitMonths[0].label + '–' + commitMonths[commitMonths.length - 1].label + ', outside PRs' : ''],
+    ['Projects', projectList.length, prProjects.length + ' via PRs · ' + (projectList.length - prProjects.length) + ' via commits only'],
+    ['Work items delivered', totals.items, 'summarized across ' + months.length + ' months'],
+    ['Busiest month', maxPrs + ' PRs', busiest.join(' & ')]
+  ];
+  document.getElementById('kpis').innerHTML = kpis.map(function (k) {
+    return '<div class="kpi"><p class="k-label">' + esc(k[0]) + '</p><p class="k-value">' + esc(k[1]) +
+      '</p><p class="k-sub">' + esc(k[2]) + '</p></div>';
+  }).join('');
+
+  // ---- Tooltip ----
+  var tip = document.getElementById('tooltip');
+  function showTip(html, evt) {
+    tip.innerHTML = html;
+    tip.hidden = false;
+    var pad = 14, w = tip.offsetWidth, h = tip.offsetHeight;
+    var x = evt.clientX + pad, y = evt.clientY + pad;
+    if (x + w > window.innerWidth - 8) x = evt.clientX - w - pad;
+    if (y + h > window.innerHeight - 8) y = evt.clientY - h - pad;
+    tip.style.left = x + 'px';
+    tip.style.top = y + 'px';
+  }
+  function hideTip() { tip.hidden = true; }
+  function monthTitle(m) { return m.label + ' 2026' + (m.partial ? ' (' + m.partial + ')' : ''); }
+
+  // ---- Bar chart ----
+  function niceStep(max) {
+    if (max <= 10) return 2;
+    if (max <= 25) return 5;
+    if (max <= 60) return 10;
+    return 20;
+  }
+  function topRoundedRect(x, y, w, h, r) {
+    r = Math.min(r, h, w / 2);
+    return 'M' + x + ',' + (y + h) + 'V' + (y + r) + 'Q' + x + ',' + y + ' ' + (x + r) + ',' + y +
+      'H' + (x + w - r) + 'Q' + (x + w) + ',' + y + ' ' + (x + w) + ',' + (y + r) + 'V' + (y + h) + 'Z';
+  }
+
+  function barChart(target, data, opts) {
+    var W = opts.width, H = opts.height, ml = 30, mr = 6, mt = 18, mb = 24;
+    var iw = W - ml - mr, ih = H - mt - mb;
+    var max = Math.max(1, Math.max.apply(null, data.map(function (d) { return d.total; })));
+    var step = niceStep(max), top = Math.ceil(max / step) * step;
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': opts.label });
+    for (var v = 0; v <= top; v += step) {
+      var gy = mt + ih - v / top * ih;
+      if (v > 0) svg.appendChild(el('line', { x1: ml, x2: W - mr, y1: gy, y2: gy, 'class': 'grid' }));
+      svg.appendChild(el('text', { x: ml - 6, y: gy + 4, 'text-anchor': 'end', 'class': 'axis' }, v));
+    }
+    var band = iw / data.length, bw = Math.min(opts.maxBar, band * 0.58);
+    data.forEach(function (d, i) {
+      var x = ml + i * band + (band - bw) / 2;
+      var y = mt + ih;
+      var segs = d.segments.filter(function (s) { return s.value > 0; });
+      segs.forEach(function (s, j) {
+        var h = s.value / top * ih;
+        var gap = j < segs.length - 1 ? 2 : 0;
+        var drawH = Math.max(1, h - gap);
+        y -= h;
+        if (j === segs.length - 1) svg.appendChild(el('path', { d: topRoundedRect(x, y, bw, drawH, 4), fill: s.color }));
+        else svg.appendChild(el('rect', { x: x, y: y + gap, width: bw, height: drawH, fill: s.color }));
+      });
+      if (d.total > 0) svg.appendChild(el('text', { x: x + bw / 2, y: y - 5, 'text-anchor': 'middle', 'class': 'total' }, d.total));
+      svg.appendChild(el('text', { x: x + bw / 2, y: H - 6, 'text-anchor': 'middle', 'class': 'axis' }, d.label));
+      var hit = el('rect', { x: ml + i * band, y: mt - 14, width: band, height: ih + 14, 'class': 'hit', rx: 4 });
+      hit.addEventListener('mousemove', function (evt) { showTip(d.tooltip, evt); });
+      hit.addEventListener('mouseleave', hideTip);
+      hit.addEventListener('click', function () { hideTip(); location.hash = 'm-' + d.key; });
+      svg.appendChild(hit);
+    });
+    svg.appendChild(el('line', { x1: ml, x2: W - mr, y1: mt + ih, y2: mt + ih, 'class': 'base' }));
+    target.appendChild(svg);
+  }
+
+  function rowHtml(color, name, value) {
+    return '<div class="t-row"><span><i class="swatch" style="background:' + color + '"></i>' + esc(name) +
+      '</span><span>' + value + '</span></div>';
+  }
+
+  barChart(document.getElementById('pr-chart'), months.map(function (m) {
+    var segs = prProjects.map(function (p) { return { name: p.name, value: m.prs[p.name] || 0, color: colorOf[p.name] }; });
+    var tipRows = segs.filter(function (s) { return s.value; }).slice().reverse()
+      .map(function (s) { return rowHtml(s.color, s.name, s.value); }).join('');
+    return {
+      key: m.key, label: m.label, total: m.prTotal, segments: segs,
+      tooltip: '<div class="t-title">' + esc(monthTitle(m)) + '</div>' + (tipRows || '<div class="muted">No PRs</div>') +
+        '<div class="t-row t-total"><span>Total PRs</span><span>' + m.prTotal + '</span></div>'
+    };
+  }), { width: 880, height: 250, maxBar: 44, label: 'Pull requests per month, stacked by project' });
+
+  document.getElementById('pr-legend').innerHTML = prProjects.map(function (p) {
+    return '<span><i class="swatch" style="background:' + colorOf[p.name] + '"></i>' + esc(p.name) + ' · ' + p.prs + '</span>';
+  }).join('');
+
+  var commitRange = commitMonths.length ? months.slice(months.indexOf(commitMonths[0])) : [];
+  barChart(document.getElementById('commit-chart'), commitRange.map(function (m) {
+    var rows = Object.keys(m.commits).sort(function (a, b) { return m.commits[b] - m.commits[a]; })
+      .map(function (p) { return '<div class="t-row"><span>' + esc(p) + '</span><span>' + m.commits[p] + '</span></div>'; }).join('');
+    return {
+      key: m.key, label: m.label, total: m.commitTotal,
+      segments: [{ name: 'Commits', value: m.commitTotal, color: COMMIT_COLOR }],
+      tooltip: '<div class="t-title">' + esc(monthTitle(m)) + '</div>' + (rows || '<div class="muted">No commits</div>') +
+        '<div class="t-row t-total"><span>Total commits</span><span>' + m.commitTotal + '</span></div>'
+    };
+  }), { width: 420, height: 230, maxBar: 40, label: 'Additional commits per month' });
+
+  // ---- Project table ----
+  var ptBody = projectList.map(function (p) {
+    var swatch = colorOf[p.name] ? '<i class="swatch" style="background:' + colorOf[p.name] + '"></i>' : '<i class="swatch"></i>';
+    return '<tr><td><span class="pname">' + swatch + esc(p.name) + '</span></td>' +
+      '<td class="num">' + (p.prs || '<span class="muted">–</span>') + '</td>' +
+      '<td class="num">' + (p.commits || '<span class="muted">–</span>') + '</td>' +
+      '<td class="num">' + p.months.length + '</td></tr>';
+  }).join('');
+  var ptable = document.getElementById('project-table');
+  ptable.querySelector('tbody').innerHTML = ptBody;
+  ptable.insertAdjacentHTML('beforeend', '<tfoot><tr><td>Total</td><td class="num">' + totals.prs +
+    '</td><td class="num">' + totals.commits + '</td><td></td></tr></tfoot>');
+
+  // ---- Month table ----
+  var mtable = document.getElementById('month-table');
+  mtable.querySelector('tbody').innerHTML = months.map(function (m) {
+    return '<tr data-key="' + m.key + '"><td><strong>' + esc(m.label) + '</strong>' +
+      (m.partial ? ' <span class="muted">(1–' + esc(m.partial.split('–')[1]) + ')</span>' : '') + '</td>' +
+      '<td class="num">' + m.items + '</td><td class="num">' + m.projects.length + '</td>' +
+      '<td class="num">' + m.prTotal + '</td><td class="num">' + m.merged + '</td>' +
+      '<td class="num">' + (m.commitTotal || '<span class="muted">–</span>') + '</td>' +
+      '<td>' + esc(m.projects.join(', ')) + '</td></tr>';
+  }).join('');
+  mtable.insertAdjacentHTML('beforeend', '<tfoot><tr><td>Total</td><td class="num">' + totals.items +
+    '</td><td class="num">' + projectList.length + '</td><td class="num">' + totals.prs + '</td><td class="num">' +
+    totals.merged + '</td><td class="num">' + totals.commits + '</td><td></td></tr></tfoot>');
+  mtable.querySelectorAll('tbody tr').forEach(function (tr) {
+    tr.addEventListener('click', function () { location.hash = 'm-' + tr.dataset.key; });
+  });
+
+  // ---- Month navigation ----
+  var nav = document.getElementById('month-nav');
+  months.forEach(function (m) {
+    var a = document.createElement('a');
+    a.href = '#m-' + m.key;
+    a.textContent = m.label;
+    nav.appendChild(a);
+  });
+  var links = nav.querySelectorAll('a');
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id); });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    observer.observe(document.getElementById('overview'));
+    months.forEach(function (m) { observer.observe(document.getElementById('m-' + m.key)); });
+  }
+})();
+</script>
 </body></html>
